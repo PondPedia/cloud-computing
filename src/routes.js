@@ -23,25 +23,25 @@ const routes = [
     {
         // update data from users
         method: 'PATCH',
-        path: '/pondpedia',
+        path: '/pondpedia/{id}',
         handler: updatePredictionsHandler,
     },
     {
         // delete predictions by users
         method: 'DELETE',
-        path: '/pondpedia',
+        path: '/pondpedia/{id}',
         handler: deletePredictionsHandler,
     },
     {
         // register account by users
         method: 'POST',
-        path: '/pondpedia',
+        path: '/register',
         handler: registerHandler,
     },
     {
         // login account by users
         method: 'POST',
-        path: '/pondpedia',
+        path: '/login',
         handler: loginHandler,
     },
 ];
