@@ -1,17 +1,30 @@
-const tf = require('@tensorflow/tfjs');
+// import * as tf from '@tensorflow/tfjs';/
+
+const tf = require('@tensorflow/tfjs-node');
 const Joi = require('@hapi/joi');
 const fs = require('fs').promises;
 const path = require('path');
 
 const pondpedia = require('./pondpedia');
 
-const MODEL_PATH = path.join(__dirname, 'model.h5');
+const MODEL_PATH = `file://${path.join(__dirname, 'model/model.json')}`;
+
+async function loadModel() {
+  const model = await tf.loadLayersModel(MODEL_PATH);
+  return model;
+}
 
 // get predictions data from ML
 const addPredictionsHandler = async (request, h) => {
-    const model = await tf.loadLayersModel(`file://${MODEL_PATH}`);
-    const prediction = model.predict(tf.tensor2d([[1, 2, 3]]));
-    return prediction.dataSync();
+    try {
+      const model = await loadModel()
+      console.log(model.summary())
+      return 'bruh'
+
+    } catch (e) {
+      console.error(e)
+      return e
+    }
 };
 
 // post predictions data from ML to users
@@ -109,3 +122,8 @@ module.exports = {
     loginHandler,
     helloWorld
 };
+
+
+// Install tensorflowjs, tensorflowjs-node
+// convert to keras .h5 format model to .json format model using tensorflowjs-converter
+// use file:// protocol to import the model
