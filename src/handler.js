@@ -5,7 +5,7 @@ const path = require('path');
 
 const pondpedia = require('./pondpedia');
 
-const model_path = path.join(__dirname, 'model.h5');
+const MODEL_PATH = path.join(__dirname, 'model.h5');
 
 // get predictions data from ML
 const addPredictionsHandler = async (request, h) => {
@@ -93,8 +93,12 @@ const registerHandler = async (request, h) => {
 
 // login account by users
 const loginHandler = async (request, h) => {
-    
+  
 };
+
+const helloWorld = async () => {
+  return "Welcome to PondPedia!";
+}
 
 module.exports = {
     addPredictionsHandler,
@@ -102,5 +106,6 @@ module.exports = {
     updatePredictionsHandler,
     deletePredictionsHandler,
     registerHandler,
-    loginHandler
+    loginHandler,
+    helloWorld
 };

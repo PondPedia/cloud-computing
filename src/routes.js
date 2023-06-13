@@ -4,10 +4,16 @@ const {
     updatePredictionsHandler,
     deletePredictionsHandler,
     registerHandler,
-    loginHandler
+    loginHandler,
+    helloWorld
 } = require('./handler');
 
 const routes = [
+    {
+        method: 'GET',
+        path: '/',
+        handler: helloWorld
+    },
     {
         // predictions from ML
         method: 'GET',
