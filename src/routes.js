@@ -1,43 +1,43 @@
 const {
-    addPredictionsHandler,
-    createPredictionsHandler,
-    updatePredictionsHandler,
-    deletePredictionsHandler,
+    getPredictionsHandler,
+    // createPredictionsHandler,
+    // updatePredictionsHandler,
+    // deletePredictionsHandler,
     registerHandler,
     loginHandler,
-    helloWorld
+    helloPondPedia
 } = require('./handler');
 
 const routes = [
     {
         method: 'GET',
-        path: '/',
-        handler: helloWorld
+        path: '/pondpedia',
+        handler: helloPondPedia
     },
     {
         // predictions from ML
         method: 'GET',
-        path: '/pondpedia',
-        handler: addPredictionsHandler,
+        path: '/pondpedia/predict/water',
+        handler: getPredictionsHandler,
     },
-    {
-        // predictions from ML to users
-        method: 'POST',
-        path: '/pondpedia',
-        handler: createPredictionsHandler,
-    },
-    {
-        // update data from users
-        method: 'PATCH',
-        path: '/pondpedia/{id}',
-        handler: updatePredictionsHandler,
-    },
-    {
-        // delete predictions by users
-        method: 'DELETE',
-        path: '/pondpedia/{id}',
-        handler: deletePredictionsHandler,
-    },
+    // {
+    //     // predictions from ML to users
+    //     method: 'POST',
+    //     path: '/pondpedia',
+    //     handler: createPredictionsHandler,
+    // },
+    // {
+    //     // update data from users
+    //     method: 'PATCH',
+    //     path: '/pondpedia/{id}',
+    //     handler: updatePredictionsHandler,
+    // },
+    // {
+    //     // delete predictions by users
+    //     method: 'DELETE',
+    //     path: '/pondpedia/{id}',
+    //     handler: deletePredictionsHandler,
+    // },
     {
         // register account by users
         method: 'POST',

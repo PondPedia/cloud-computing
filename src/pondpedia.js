@@ -1,3 +1,3 @@
-const pondpedia = [];
+const pondpedia = []
 
 module.exports = pondpedia;
