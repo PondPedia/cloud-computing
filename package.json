@@ -1,7 +1,7 @@
 {
-  "name": "pondpedia_backend",
+  "name": "pondpedia_prediction_api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Act as an intermediate between the android and the machine learning model",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "start-dev": "nodemon ./src/server.js",
     "lint": "eslint ./"
   },
-  "author": "",
+  "author": "Natasya and Friza",
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^21.3.2",

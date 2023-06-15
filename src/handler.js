@@ -8,12 +8,11 @@ const axios = require('axios');
 const dataset_water = require('./data.json');
 const dataset_fishgrowth = require('./data_copy.json');
 
-// endpoint = 'https://pondpediaprediction-ismbpqewoa-nn.a.run.app';
-endpoint = 'http://127.0.0.1:5000'
+// endpoint = 'http://127.0.0.1:5000'
+endpoint = 'https://pondpediaprediction-ismbpqewoa-as.a.run.app';
 
-// Get predictions data from ML
+// Get Water Predictions Data From ML
 const getPredictionsWaterHandler = async (request, h) => {
-  // 
   const url = `${endpoint}/water`; // Flask Web Server
   const jsonString = JSON.stringify(dataset_water);
 
@@ -35,6 +34,7 @@ const getPredictionsWaterHandler = async (request, h) => {
   }
 };
 
+// Get Fish Growth Predictions Data From ML
 const getPredictionsFishGrowthHandler = async (request, h) => {
   const url = `${endpoint}/fishgrowth`; // Flask Web Server
   const jsonString = JSON.stringify(dataset_fishgrowth);

@@ -2,15 +2,18 @@ const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
 
 const init = async () => {
+    const host = '0.0.0.0';
+    const port = parseInt(process.env.PORT) || 8080;
+    
     const server = Hapi.server({
-        port: 8000,
-        host: 'localhost',
+        port: port,
+        host: host,
     });
 
     server.route(routes);
 
     await server.start();
-    console.log(`Server berjalan pada ${server.info.uri}`);
+    console.log(`Listening on port:${server.info.uri}`);
 };
 
 init ();

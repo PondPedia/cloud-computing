@@ -18,13 +18,13 @@ const routes = [
     {
         // Water predictions from ML
         method: 'GET',
-        path: '/pondpedia/predict/water',
+        path: '/predict/water',
         handler: getPredictionsWaterHandler,
     },
     {
         // Fish Growth predictions from ML
         method: 'GET',
-        path: '/pondpedia/predict/fishgrowth',
+        path: '/predict/fishgrowth',
         handler: getPredictionsFishGrowthHandler,
     },
     // {
