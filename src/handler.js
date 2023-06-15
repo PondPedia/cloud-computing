@@ -7,8 +7,8 @@ const axios = require('axios');
 
 
 // Flask Web Server
-endpoint = 'http://127.0.0.1:5000'
-// endpoint = 'https://pondpediaprediction-ismbpqewoa-as.a.run.app';
+// endpoint = 'http://127.0.0.1:5000'
+endpoint = 'https://pondpediaprediction-ismbpqewoa-as.a.run.app';
 
 // Get Water Predictions Data From ML
 const getPredictionsWaterHandler = async (request, h) => {
