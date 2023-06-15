@@ -1,10 +1,11 @@
-// const tf = require('@tensorflow/tfjs-node');
 const Joi = require('@hapi/joi');
 const fs = require('fs').promises;
 const path = require('path');
-const pondpedia = require('./pondpedia');
 const axios = require('axios');
-
+const bcrypt = require('bcrypt');
+const escape = require('pg-escape');
+const Hoek = require('hoek');
+const validator = require('validator');
 
 // Flask Web Server
 // endpoint = 'http://127.0.0.1:5000'
@@ -56,78 +57,6 @@ const getPredictionsFishGrowthHandler = async (request, h) => {
   }
 }
 
-// // post predictions data from ML to users
-// const createPredictionsHandler = async (request, h) => {
-//     const { payload } = request;
-//     const { error } = Joi.object({
-//       input: Joi.array().items(Joi.number()).required()
-//     }).validate(payload);
-
-//     if (error) {
-//       return h.response(error.details[0].message).code(400);
-//     }
-
-//     const model = await tf.loadLayersModel(`file://${MODEL_PATH}`);
-//     const inputTensor = tf.tensor2d([payload.input]);
-//     const prediction = model.predict(inputTensor);
-//     const predictionData = prediction.dataSync()[0];
-//     const newPrediction = {
-//       id: Date.now(),
-//       input: payload.input,
-//       prediction: predictionData
-//     };
-//     const predictionList = await this.getPredictionList();
-//     predictionList.push(newPrediction);
-//     await this.savePredictionList(predictionList);
-
-//     return newPrediction;
-// };
-
-// // update data from users
-// const updatePredictionsHandler = async (request, h) => {
-//     const { id } = request.params;
-//     const { payload } = request;
-//     const { error } = Joi.object({
-//       input: Joi.array().items(Joi.number())
-//     }).validate(payload);
-
-//     if (error) {
-//       return h.response(error.details[0].message).code(400);
-//     }
-
-//     const predictionList = await this.getPredictionList();
-//     const predictionIndex = predictionList.findIndex(prediction => prediction.id === parseInt(id));
-
-//     if (predictionIndex === -1) {
-//       return h.response('Prediction not found').code(404);
-//     }
-
-//     const updatedPrediction = {
-//       ...predictionList[predictionIndex],
-//       ...payload
-//     };
-//     predictionList[predictionIndex] = updatedPrediction;
-//     await this.savePredictionList(predictionList);
-
-//     return updatedPrediction;
-// };
-
-// // delete predictions data by users
-// const deletePredictionsHandler = async (request, h) => {
-//     const { id } = request.params;
-//     const predictionList = await this.getPredictionList();
-//     const predictionIndex = predictionList.findIndex(prediction => prediction.id === parseInt(id));
-
-//     if (predictionIndex === -1) {
-//       return h.response('Prediction not found').code(404);
-//     }
-
-//     predictionList.splice(predictionIndex, 1);
-//     await this.savePredictionList(predictionList);
-
-//     return h.response().code(204);
-// };
-
 const helloPondPedia = async (request, h) => {
   try {
     return h.response({
@@ -144,7 +73,17 @@ const helloPondPedia = async (request, h) => {
 
 // register account by users
 const registerHandler = async (request, h) => {
-    
+  const userData = {
+    email: Joi.string().email().required(),
+    username: Joi.string(),
+    password: Joi.string().required(),
+  };
+  
+  function register(request, reply) {
+    const email = help.escape(request.payload.email);
+    const username = help.escape(request.payload.username);
+    const password = help.escape(request.payload.password);
+    const select = escape('SELECT *FROM people WHERE (email= %L)', email);
 };
 
 // login account by users
@@ -156,15 +95,7 @@ const loginHandler = async (request, h) => {
 module.exports = {
     getPredictionsWaterHandler,
     getPredictionsFishGrowthHandler,
-    // createPredictionsHandler,
-    // updatePredictionsHandler,
-    // deletePredictionsHandler,
     registerHandler,
     loginHandler,
     helloPondPedia
 };
-
-
-// Install tensorflowjs, tensorflowjs-node
-// convert to keras .h5 format model to .json format model using tensorflowjs-converter
-// use file:// protocol to import the model

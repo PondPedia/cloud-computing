@@ -2,11 +2,11 @@ const Hapi = require('@hapi/hapi');
 const routes = require('./routes');
 
 const init = async () => {
-    const host = '0.0.0.0';
-    const port = parseInt(process.env.PORT) || 8080;
+    //const host = '0.0.0.0';
+    //const port = parseInt(process.env.PORT) || 8080;
     
-    // const host = 'localhost';
-    // const port = 8000
+    const host = 'localhost';
+    const port = 8000
     
     const server = Hapi.server({
         port: port,
