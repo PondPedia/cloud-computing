@@ -5,6 +5,9 @@ const init = async () => {
     const host = '0.0.0.0';
     const port = parseInt(process.env.PORT) || 8080;
     
+    // const host = 'localhost';
+    // const port = 8000
+    
     const server = Hapi.server({
         port: port,
         host: host,
@@ -13,7 +16,7 @@ const init = async () => {
     server.route(routes);
 
     await server.start();
-    console.log(`Listening on port:${server.info.uri}`);
+    console.log(`Listening on ${server.info.uri}`);
 };
 
 init ();

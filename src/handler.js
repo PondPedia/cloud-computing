@@ -5,16 +5,15 @@ const path = require('path');
 const pondpedia = require('./pondpedia');
 const axios = require('axios');
 
-const dataset_water = require('./data.json');
-const dataset_fishgrowth = require('./data_copy.json');
 
-// endpoint = 'http://127.0.0.1:5000'
-endpoint = 'https://pondpediaprediction-ismbpqewoa-as.a.run.app';
+// Flask Web Server
+endpoint = 'http://127.0.0.1:5000'
+// endpoint = 'https://pondpediaprediction-ismbpqewoa-as.a.run.app';
 
 // Get Water Predictions Data From ML
 const getPredictionsWaterHandler = async (request, h) => {
-  const url = `${endpoint}/water`; // Flask Web Server
-  const jsonString = JSON.stringify(dataset_water);
+  const url = `${endpoint}/water`;
+  const jsonString = request.payload;
 
   try {
     const res = await axios.post(url, jsonString, {
@@ -36,8 +35,8 @@ const getPredictionsWaterHandler = async (request, h) => {
 
 // Get Fish Growth Predictions Data From ML
 const getPredictionsFishGrowthHandler = async (request, h) => {
-  const url = `${endpoint}/fishgrowth`; // Flask Web Server
-  const jsonString = JSON.stringify(dataset_fishgrowth);
+  const url = `${endpoint}/fishgrowth`;
+  const jsonString = request.payload;
 
   try {
     const res = await axios.post(url, jsonString, {
