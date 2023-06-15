@@ -1,5 +1,6 @@
 const {
-    getPredictionsHandler,
+    getPredictionsWaterHandler,
+    getPredictionsFishGrowthHandler,
     // createPredictionsHandler,
     // updatePredictionsHandler,
     // deletePredictionsHandler,
@@ -15,10 +16,16 @@ const routes = [
         handler: helloPondPedia
     },
     {
-        // predictions from ML
+        // Water predictions from ML
         method: 'GET',
         path: '/pondpedia/predict/water',
-        handler: getPredictionsHandler,
+        handler: getPredictionsWaterHandler,
+    },
+    {
+        // Fish Growth predictions from ML
+        method: 'GET',
+        path: '/pondpedia/predict/fishgrowth',
+        handler: getPredictionsFishGrowthHandler,
     },
     // {
     //     // predictions from ML to users

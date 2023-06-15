@@ -5,12 +5,17 @@ const path = require('path');
 const pondpedia = require('./pondpedia');
 const axios = require('axios');
 
-const dataset = require('./data.json');
+const dataset_water = require('./data.json');
+const dataset_fishgrowth = require('./data_copy.json');
+
+// endpoint = 'https://pondpediaprediction-ismbpqewoa-nn.a.run.app';
+endpoint = 'http://127.0.0.1:5000'
 
 // Get predictions data from ML
-const getPredictionsHandler = async (request, h) => {
-  const url = 'https://pondpediaprediction-ismbpqewoa-nn.a.run.app/water';
-  const jsonString = JSON.stringify(dataset);
+const getPredictionsWaterHandler = async (request, h) => {
+  // 
+  const url = `${endpoint}/water`; // Flask Web Server
+  const jsonString = JSON.stringify(dataset_water);
 
   try {
     const res = await axios.post(url, jsonString, {
@@ -29,6 +34,28 @@ const getPredictionsHandler = async (request, h) => {
     }).code(400);
   }
 };
+
+const getPredictionsFishGrowthHandler = async (request, h) => {
+  const url = `${endpoint}/fishgrowth`; // Flask Web Server
+  const jsonString = JSON.stringify(dataset_fishgrowth);
+
+  try {
+    const res = await axios.post(url, jsonString, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return h.response({
+      message: res.data,
+      success: true
+    }).code(200);
+  } catch (err) {
+    return h.response({
+      success: false,
+      status: 'Fail!'
+    }).code(400);
+  }
+}
 
 // // post predictions data from ML to users
 // const createPredictionsHandler = async (request, h) => {
@@ -128,7 +155,8 @@ const loginHandler = async (request, h) => {
 
 
 module.exports = {
-    getPredictionsHandler,
+    getPredictionsWaterHandler,
+    getPredictionsFishGrowthHandler,
     // createPredictionsHandler,
     // updatePredictionsHandler,
     // deletePredictionsHandler,
