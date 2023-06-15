@@ -17,14 +17,16 @@ Cloud Computing of PondPedia connecting ML models and the Application (Mobile De
 
 ## Contributing
 
-State if you are open to contributions and describe how other developers can contribute to your project. Include guidelines for submitting pull requests, reporting issues, or contacting the project maintainer.
+We are sorry that we are not open to contributions for this project.
 
 ## License
 
-Specify the license under which your project is released. For example, you can use the MIT License. Include the license name, a brief description, and a link to the full license text.
+Coming soon. We will specify the license under which our project is released. We will include the license name, a brief description, and a link to the full license text.
 
 ## Installation
 Provide step-by-step instructions on how to install and set up your project. Include any dependencies and specific configurations if necessary.
+
+
 
 **Containerise the Machine Learning Model Using Docker**
 
@@ -55,6 +57,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
 ```
 
+
+
 **Build the Docker Image**
 
 Once the Dockerfile is defined, we need to build a Docker image based on it. It’s quite simple to build the image locally, all you need to do is to run the following command in the folder where your Dockerfile and the application code is.
@@ -62,6 +66,8 @@ Once the Dockerfile is defined, we need to build a Docker image based on it. It�
 `docker build -t ml-images:latest .`
 
 This will create an image called `ml-images` and will save it locally. We can run `docker images` in our CLI to see it listed among the other Docker images we have.
+
+
 
 **Push the Image to Google Artifact Registry**
 There are five steps to this process:
@@ -72,7 +78,9 @@ There are five steps to this process:
 - [ ] Push the image
 
 To begin with, we need to determine in which location we want to have our container stored. To save credit, we will choose `asia-southeast1`, so the command for us is:
+
 `gcloud auth configure-docker asia-southeast1-docker.pkg.dev`
+
 For the first step of the process, we need to go to the Artifact Registry in the navigation menu then go to the Repositories and click `Create Repository` button. In the pop-up menu, specify that this is a Docker format and set its location equal to previouslt selected one (for us it's `asia-southeast1`).
 
 All the setup is done, so let's begin the the main part. To tag an image with specific name and to push it we need to run two specific commands:
@@ -81,13 +89,15 @@ All the setup is done, so let's begin the the main part. To tag an image with sp
 docker push LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/IMAGE-NAME
 ```
 
-Since the image name is `ml-images'`, repository name is `'ml-model` and my project ID is `pondpedia-project`, the commands for us look as follows:
+Since the image name is `ml-images`, repository name is `ml-model` and my project ID is `pondpedia-project`, the commands for us look as follows:
 
 ```docker tag ml-images asia-southeast1-docker.pkg.dev/pondpedia-project/ml-model/ml-images
 docker push asia-southeast1-docker.pkg.dev/pondpedia-project/ml-model/ml-images
 ```
 
 The command will take some time to execute but once it's done, we'll be able see our Docker image in our Artificat Registry UI.
+
+
 
 **Deploy Container on Google Cloud Run**
 
@@ -102,9 +112,10 @@ There are two ways to create a service in Cloud Run — through the CLI or in th
 
 This command will create a `get-prediction` from the previously uploaded image in the Artifact Registry. In addition, it also specifies the region (the same as our Docker image), the port to expose, and the RAM available to the service.
 
+
+
 ## Usage
-```mermaid
-graph TD;
+```mermaid LR;
     User --> Application --> ML Model --> Application
 ```
 
