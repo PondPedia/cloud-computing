@@ -72,18 +72,56 @@ const helloPondPedia = async (request, h) => {
 }
 
 // register account by users
-const registerHandler = async (request, h) => {
-  const userData = {
-    email: Joi.string().email().required(),
-    username: Joi.string(),
-    password: Joi.string().required(),
-  };
-  
-  function register(request, reply) {
-    const email = help.escape(request.payload.email);
-    const username = help.escape(request.payload.username);
-    const password = help.escape(request.payload.password);
-    const select = escape('SELECT *FROM people WHERE (email= %L)', email);
+const userData = {
+  email: Joi.string().email().required(),
+  username: Joi.string(),
+  password: Joi.string().password().required(),
+};
+
+function register(request, reply) {
+  const email = help.escape(request.payload.email);
+  const username = help.escape(request.payload.username);
+  const password = help.escape(request.payload.password);
+  const select = escape('SELECT *FROM people WHERE (email= %L)', email);
+
+  request.pg.client.query(select, (err, result) => {
+    if (err || result.rowCount === 0) {
+      bcrypt.gensSalt(12, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          const q = 'INSERT INTO %s (email, username, password) VALUES (%L, %L, %L)';
+          const insert = escape(q, 'people', email, username, hash);
+          request.pg.client.query(insert, (err, result) => {
+            Hoek.assert(!err, 'ERROR: inserting data into Postgres', err);
+            return reply.view('success', {
+              email,
+              username,
+            });
+          });
+        });
+      });
+    } else {
+      return reply.view('index', {
+        title: 'Please try insert a different email.',
+        error: { email: { message: 'Email has already bees registered.' } },
+        values: {
+          email,
+          username,
+          password,
+        },
+      }).code(400);
+    }
+  });
+}
+
+const registerHandler = async (request, reply, error) => {
+  if (!request.payload || request.payload && error && error.data) {
+    return reply.view('index', {
+      title: `Please register${request.server.version}`,
+      error: help.extract_validation_error(error),
+      values: help.return_form_input_values(error),
+    }).code(400);
+  }
+  return register(request, reply);
 };
 
 // login account by users
