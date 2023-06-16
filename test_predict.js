@@ -1,12 +1,12 @@
 
 // HAPI Web Server
-endpoint = 'http://localhost:8000'
-// endpoint = 'https://pondpediaapi-ismbpqewoa-as.a.run.app'
+// endpoint = 'http://localhost:8000'
+endpoint = 'https://pondpediaapi-ismbpqewoa-as.a.run.app'
 
 const axios = require('axios');
 
-const dataset_water = require('./src/data.json');
-const dataset_fishgrowth = require('./src/data_copy.json');
+const dataset_water = require('./src/model/data.json');
+const dataset_fishgrowth = require('./src/model/data_copy.json');
 
 const bruh = JSON.stringify(dataset_water);
 const bruh_2 = JSON.stringify(dataset_fishgrowth)
