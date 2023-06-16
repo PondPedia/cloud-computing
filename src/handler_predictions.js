@@ -98,4 +98,5 @@ module.exports = {
     registerHandler,
     loginHandler,
     helloPondPedia
+}
 };
