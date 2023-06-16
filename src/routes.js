@@ -1,49 +1,73 @@
+const Joi = require('joi');
+
 const {
-    addPredictionsHandler,
-    createPredictionsHandler,
-    updatePredictionsHandler,
-    deletePredictionsHandler,
-    registerHandler,
+    getPredictionsWaterHandler,
+    getPredictionsFishGrowthHandler,
+    helloPondPedia
+} = require('./handler_predictions');
+const {
+    registerHandler, 
     loginHandler
-} = require('./handler');
+} = require('./user_handler');
+
 
 const routes = [
     {
-        // predictions from ML
         method: 'GET',
         path: '/pondpedia',
-        handler: addPredictionsHandler,
+        handler: helloPondPedia
     },
     {
-        // predictions from ML to users
+        // Water predictions from ML
         method: 'POST',
-        path: '/pondpedia',
-        handler: createPredictionsHandler,
+        path: '/predict/water',
+        handler: getPredictionsWaterHandler,
     },
     {
-        // update data from users
-        method: 'PATCH',
-        path: '/pondpedia/{id}',
-        handler: updatePredictionsHandler,
+        // Fish Growth predictions from ML
+        method: 'POST',
+        path: '/predict/fishgrowth',
+        handler: getPredictionsFishGrowthHandler,
     },
     {
-        // delete predictions by users
-        method: 'DELETE',
-        path: '/pondpedia/{id}',
-        handler: deletePredictionsHandler,
-    },
-    {
-        // register account by users
+        // Register account by users
         method: 'POST',
         path: '/register',
+        options: {
+            validate: {
+              payload: Joi.object({
+                name: Joi.string().required(),
+                email: Joi.string().email().required(),
+                password: Joi.string().required()
+              })
+            }
+        },
         handler: registerHandler,
     },
     {
-        // login account by users
+        // Login account by users
         method: 'POST',
         path: '/login',
+        options: {
+            validate: {
+              payload: Joi.object({
+                email: Joi.string().email().required(),
+                password: Joi.string().required()
+              })
+            }
+        },
         handler: loginHandler,
     },
+    {
+        method: 'GET',
+        path: '/protected',
+        config: {
+          auth: 'jwt'
+        },
+        handler: function (request, h) {
+            return { message: 'You are authorized to access this route!' };
+        }
+    }
 ];
 
 module.exports = routes;
